@@ -60,9 +60,9 @@ logger = logging.get_logger(__name__)  # pylint: disable=invalid-name
 ENV_VARS_TRUE_VALUES = {"1", "ON", "YES", "TRUE"}
 ENV_VARS_TRUE_AND_AUTO_VALUES = ENV_VARS_TRUE_VALUES.union({"AUTO"})
 
-USE_TF = os.environ.get("USE_TF", "AUTO").upper()
-USE_TORCH = os.environ.get("USE_TORCH", "AUTO").upper()
-USE_JAX = os.environ.get("USE_FLAX", "AUTO").upper()
+USE_TF = os.environ.get("USE_TF", "NO").upper()
+USE_TORCH = os.environ.get("USE_TORCH", "YES").upper()
+USE_JAX = os.environ.get("USE_FLAX", "NO").upper()
 
 if USE_TORCH in ENV_VARS_TRUE_AND_AUTO_VALUES and USE_TF not in ENV_VARS_TRUE_VALUES:
     _torch_available = importlib.util.find_spec("torch") is not None
