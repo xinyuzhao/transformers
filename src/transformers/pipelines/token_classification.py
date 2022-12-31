@@ -220,7 +220,7 @@ class TokenClassificationPipeline(Pipeline):
         sentence = model_outputs["sentence"]
         input_ids = model_outputs["input_ids"][0]
         offset_mapping = model_outputs["offset_mapping"][0] if model_outputs["offset_mapping"] is not None else None
-        special_tokens_mask = model_outputs["special_tokens_mask"][0].numpy()
+        special_tokens_mask = model_outputs["special_tokens_mask"][0].cpu().numpy()
 
         scores = np.exp(outputs) / np.exp(outputs).sum(-1, keepdims=True)
         pre_entities = self.gather_pre_entities(
@@ -261,8 +261,8 @@ class TokenClassificationPipeline(Pipeline):
                     start_ind = start_ind.item()
                     end_ind = end_ind.item()
                 else:
-                    start_ind = int(start_ind.numpy())
-                    end_ind = int(end_ind.numpy())
+                    start_ind = int(start_ind.cpu().numpy())
+                    end_ind = int(end_ind.cpu().numpy())
                 word_ref = sentence[start_ind:end_ind]
                 if getattr(self.tokenizer._tokenizer.model, "continuing_subword_prefix", None):
                     # This is a BPE, word aware tokenizer, there is a correct way
